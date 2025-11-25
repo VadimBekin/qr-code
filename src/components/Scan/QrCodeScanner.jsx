@@ -8,13 +8,9 @@ export const QrCodeScanner = () => {
     const [scanned, setScanned] = useState(null);
 
     const scanHandler = (result) => {
-        if (!result) return;
-        const prevData = JSON.parse(
-            localStorage.getItem(SCAN_DATA) || '[]');
-        if (prevData.includes(result.text)) return;
-
-        setScanned(result.text);
-        const updatedData = [...prevData, result.text];
+        setScanned(result[0].rawValue);
+        const prevData = JSON.parse(localStorage.getItem(SCAN_DATA) || '[]');
+        const updatedData = [...prevData, result[0].rawValue];
         localStorage.setItem(
             SCAN_DATA,
             JSON.stringify(updatedData));
@@ -32,7 +28,7 @@ export const QrCodeScanner = () => {
                     finder: false,
                 }}
                 styles={{
-                    container: { width: 450 }
+                    container: { width: 350 }
                 }}
             />
             <p className={styleScanner.result}>{scanned}</p>
